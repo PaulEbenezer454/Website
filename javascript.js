@@ -1,33 +1,27 @@
-function calculateBMI() {
-    let weight = parseFloat(document.getElementById("weight").value);
-    let height = parseFloat(document.getElementById("height").value);
+function convertCurrency() {
+    let amount = parseFloat(document.getElementById("amount").value);
+    let fromCurrency = document.getElementById("from").value;
+    let toCurrency = document.getElementById("to").value;
 
-    if (!weight || !height) {
-        document.getElementById("bmiValue").innerHTML = "";
-        document.getElementById("bmiStatus").innerHTML = "";
+    if (!amount) {
+        document.getElementById("result").innerHTML = "";
         return;
     }
 
-    height = height / 100; // convert cm to meters
-    let bmi = weight / (height * height);
-    bmi = bmi.toFixed(1);
+    // Example fixed exchange rates
+    let rates = {
+        "USD": 1,
+        "INR": 83.3,
+        "EUR": 0.92,
+        "GBP": 0.78
+    };
 
-    document.getElementById("bmiValue").innerHTML = bmi;
+    // Convert to USD
+    let amountInUSD = amount / rates[fromCurrency];
+    // Convert to target currency
+    let convertedAmount = amountInUSD * rates[toCurrency];
+    convertedAmount = convertedAmount.toFixed(2);
 
-    let status = "";
-    if (bmi < 18) {
-        status = "Underweight";
-        document.getElementById("bmiValue").style.color = "orange";
-    } else if (bmi >= 18 && bmi < 25) {
-        status = "Normal";
-        document.getElementById("bmiValue").style.color = "green";
-    } else if (bmi >= 25 && bmi < 30) {
-        status = "Overweight";
-        document.getElementById("bmiValue").style.color = "goldenrod";
-    } else {
-        status = "Obese";
-        document.getElementById("bmiValue").style.color = "red";
-    }
-
-    document.getElementById("bmiStatus").innerHTML = status + " BMI";
+    document.getElementById("result").innerHTML = 
+        `Converted Amount: ${convertedAmount} ${toCurrency}`;
 }
